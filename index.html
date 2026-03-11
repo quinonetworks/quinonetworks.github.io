@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quino Networks — Marketing que va más allá</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-snap-type: y mandatory; overflow-x: hidden; }
+body { background: #0a0a0a; color: #f0ede8; font-family: 'Outfit', sans-serif; overflow-x: hidden; cursor: none; }
+
+/* ── CURSOR ── */
+#cur { position: fixed; width: 10px; height: 10px; background: #fff; border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); mix-blend-mode: difference; transition: width .2s, height .2s; }
+#cur.big { width: 40px; height: 40px; }
+
+/* ── PARTICLES ── */
+#ptc { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+
+/* ── SLIDE BASE ── */
+.slide { position: relative; z-index: 2; min-height: 100vh; scroll-snap-align: start; display: flex; flex-direction: column; justify-content: center; padding: 80px 7vw; overflow: hidden; }
+
+/* ── SLIDE INDICATOR ── */
+.slide-indicator { position: absolute; bottom: 26px; left: 7vw; font-size: .65rem; letter-spacing: .28em; text-transform: uppercase; color: rgba(240,237,232,.14); z-index: 3; }
+
+/* ── NAV DOTS ── */
+#nav-dots { position: fixed; right: 22px; top: 50%; transform: translateY(-50%); z-index: 9000; display: flex; flex-direction: column; gap: 10px; }
+.nd { width: 6px; height: 6px; border-radius: 50%; background: rgba(240,237,232,.18); border: 1px solid rgba(240,237,232,.3); cursor: none; transition: all .3s; display: block; }
+.nd.on { background: #f0ede8; transform: scale(1.6); }
+
+/* ══ SLIDE 1 ══ */
+#s1 { background: #0a0a0a; align-items: flex-start; justify-content: flex-end; padding-bottom: 12vh; }
+#s1::before { content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none; background-image: linear-gradient(rgba(240,237,232,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(240,237,232,.025) 1px, transparent 1px); background-size: 80px 80px; }
+#glow { position: absolute; z-index: 1; pointer-events: none; width: 600px; height: 600px; background: radial-gradient(circle, rgba(255,255,255,.06) 0%, transparent 65%); border-radius: 50%; transform: translate(-50%,-50%); left: 82%; top: 38%; transition: left .08s ease, top .08s ease; }
+#s1 .logo-row { position: absolute; top: 30px; left: 7vw; z-index: 3; display: flex; align-items: center; gap: 10px; font-size: .75rem; letter-spacing: .16em; text-transform: uppercase; color: rgba(240,237,232,.45); }
+#s1 .logo-row svg { width: 24px; height: 24px; }
+#s1 .big-title { position: relative; z-index: 3; font-family: 'Bebas Neue'; font-size: clamp(5rem, 13vw, 12rem); line-height: .88; letter-spacing: -.01em; color: #ffffff; }
+#s1 .tagline { position: relative; z-index: 3; margin-top: 22px; font-size: clamp(.9rem, 1.5vw, 1.25rem); font-weight: 300; color: rgba(240,237,232,.38); letter-spacing: .05em; }
+#s1 .gradient-line { position: absolute; bottom: 0; left: 0; right: 0; height: 1px; z-index: 3; background: linear-gradient(90deg, transparent, rgba(240,237,232,.35), transparent); background-size: 200% 100%; animation: shimmer 4s ease-in-out infinite; }
+@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
+/* counters */
+.counters { display: flex; gap: 40px; margin-top: 36px; flex-wrap: wrap; position: relative; z-index: 3; }
+.counter-val { font-family: 'Bebas Neue'; font-size: clamp(2.2rem, 4vw, 3.8rem); line-height: 1; color: #ffffff; letter-spacing: -.02em; }
+.counter-label { font-size: .7rem; letter-spacing: .18em; text-transform: uppercase; color: rgba(240,237,232,.28); margin-top: 4px; }
+
+/* typewriter blink */
+.cursor-blink::after { content: '|'; animation: blink .8s step-end infinite; color: rgba(240,237,232,.4); margin-left: 2px; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* orbs */
+.orb { position: absolute; border-radius: 50%; pointer-events: none; z-index: 0; filter: blur(60px); opacity: .035; animation: drift linear infinite; }
+@keyframes drift { 0%{transform:translate(0,0) scale(1)} 33%{transform:translate(30px,-20px) scale(1.05)} 66%{transform:translate(-20px,15px) scale(.97)} 100%{transform:translate(0,0) scale(1)} }
+
+/* scan lines */
+body::after { content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.03) 2px, rgba(0,0,0,.03) 4px); }
+
+/* ══ SLIDE 2 ══ */
+#s2 { background: #111; }
+#s2::after { content: ''; position: absolute; top: 0; left: 7vw; right: 7vw; height: 1px; background: linear-gradient(90deg, transparent, rgba(240,237,232,.1), transparent); }
+.main-heading { font-family: 'Bebas Neue'; font-size: clamp(2rem, 4.5vw, 4.8rem); line-height: 1; margin-bottom: 28px; }
+.body-text { max-width: 620px; font-weight: 300; font-size: clamp(.82rem, 1.1vw, .98rem); line-height: 1.85; color: rgba(240,237,232,.5); }
+.body-text p + p { margin-top: 14px; }
+.body-text strong { color: #f0ede8; font-weight: 500; }
+
+/* ══ SLIDE 3 ══ */
+#s3 { background: #0a0a0a; }
+#s3 .main-heading { margin-bottom: 40px; }
+.two-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; max-width: 960px; }
+.col { padding: 38px 34px; border: 1px solid rgba(240,237,232,.07); position: relative; overflow: hidden; transition: border-color .3s; }
+.col:hover { border-color: rgba(240,237,232,.2); }
+.col-tag { font-size: .65rem; letter-spacing: .25em; text-transform: uppercase; color: rgba(240,237,232,.28); margin-bottom: 14px; font-weight: 500; }
+.col-title { font-family: 'Bebas Neue'; font-size: 1.85rem; margin-bottom: 12px; }
+.col-desc { font-weight: 300; font-size: .88rem; line-height: 1.78; color: rgba(240,237,232,.46); }
+.col::after { content: ''; position: absolute; bottom: 0; left: 0; height: 2px; width: 0; background: #f0ede8; transition: width .4s; }
+.col:hover::after { width: 100%; }
+
+/* ══ STEPS ══ */
+.step-sub { font-size: .7rem; letter-spacing: .22em; text-transform: uppercase; color: rgba(240,237,232,.25); margin-bottom: 40px; }
+.steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 3px; max-width: 1100px; }
+.step { padding: 30px 22px; border: 1px solid rgba(240,237,232,.07); position: relative; overflow: hidden; transition: border-color .3s, transform .3s; }
+.step:hover { border-color: rgba(240,237,232,.2); transform: translateY(-4px); }
+.step-n { font-family: 'Bebas Neue'; font-size: 4rem; color: rgba(240,237,232,.05); line-height: 1; margin-bottom: 14px; }
+.step-title { font-family: 'Bebas Neue'; font-size: 1.2rem; margin-bottom: 9px; }
+.step-desc { font-size: .8rem; font-weight: 300; line-height: 1.72; color: rgba(240,237,232,.4); }
+#s4 { background: #111; }
+#s4 .main-heading { margin-bottom: 8px; }
+#s5 { background: #0e0e0e; }
+#s5 .main-heading { margin-bottom: 8px; }
+
+/* ══ SLIDE 6 TARIFAS ══ */
+#s6 { background: #111; justify-content: center; }
+#s6::after { content: ''; position: absolute; top: 0; left: 7vw; right: 7vw; height: 1px; background: linear-gradient(90deg, transparent, rgba(240,237,232,.1), transparent); }
+#s6 .t-eyebrow { font-size: .65rem; letter-spacing: .35em; text-transform: uppercase; color: rgba(240,237,232,.2); margin-bottom: 14px; }
+#s6 .t-heading { font-family: 'Bebas Neue'; font-size: clamp(2.2rem, 5vw, 5.5rem); line-height: .95; margin-bottom: 10px; }
+#s6 .t-sub { font-size: clamp(.82rem, 1.1vw, .95rem); font-weight: 300; color: rgba(240,237,232,.36); max-width: 520px; line-height: 1.75; margin-bottom: 40px; }
+.pricing-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 3px; max-width: 1000px; margin-bottom: 24px; }
+.pc { border: 1px solid rgba(240,237,232,.1); padding: 36px 28px; position: relative; overflow: hidden; transition: border-color .35s, transform .3s; background: rgba(255,255,255,.01); }
+.pc:hover { border-color: rgba(240,237,232,.28); transform: translateY(-5px); }
+.pc.highlight { border-color: rgba(240,237,232,.3); background: rgba(240,237,232,.04); }
+.pc-label { font-size: .62rem; letter-spacing: .25em; text-transform: uppercase; color: rgba(240,237,232,.3); margin-bottom: 16px; font-weight: 500; }
+.pc-name { font-family: 'Bebas Neue'; font-size: 1.5rem; letter-spacing: .04em; margin-bottom: 14px; }
+.pc-price { display: flex; align-items: baseline; gap: 3px; margin-bottom: 20px; }
+.pc-price .amount { font-family: 'Bebas Neue'; font-size: clamp(2.8rem, 5vw, 4.2rem); line-height: 1; color: #ffffff; }
+.pc-price .period { font-size: .75rem; color: rgba(240,237,232,.35); font-weight: 300; }
+.pc hr { border: none; border-top: 1px solid rgba(240,237,232,.07); margin-bottom: 18px; }
+.pc ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+.pc ul li { font-size: .8rem; font-weight: 300; color: rgba(240,237,232,.5); display: flex; align-items: flex-start; gap: 9px; }
+.pc ul li::before { content: '▪'; color: rgba(240,237,232,.3); flex-shrink: 0; font-size: .65rem; margin-top: 2px; }
+.pc::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: #f0ede8; transform: scaleX(0); transform-origin: left; transition: transform .4s; }
+.pc:hover::after { transform: scaleX(1); }
+.t-modality { max-width: 1000px; margin-bottom: 20px; border: 1px solid rgba(240,237,232,.07); padding: 20px 28px; display: flex; align-items: flex-start; gap: 18px; }
+.t-modality .mod-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+.t-modality .mod-text { font-size: .82rem; font-weight: 300; line-height: 1.75; color: rgba(240,237,232,.42); }
+.t-modality .mod-text strong { color: #f0ede8; font-weight: 500; }
+.t-disclaimer { font-size: .7rem; font-weight: 300; letter-spacing: .04em; color: rgba(240,237,232,.22); max-width: 1000px; line-height: 1.65; margin-bottom: 28px; }
+.t-cta { display: inline-block; padding: 13px 40px; border: 1px solid rgba(240,237,232,.22); font-size: .78rem; letter-spacing: .16em; text-transform: uppercase; text-decoration: none; color: #f0ede8; font-weight: 500; transition: background .25s, border-color .25s; }
+.t-cta:hover { background: rgba(240,237,232,.07); border-color: rgba(240,237,232,.5); }
+
+/* ══ SLIDE 7 ══ */
+#s7 { background: #0a0a0a; }
+#s7 .main-heading { margin-bottom: 40px; }
+.reasons { display: grid; grid-template-columns: repeat(3,1fr); gap: 3px; max-width: 1050px; }
+.reason { padding: 40px 30px; border: 1px solid rgba(240,237,232,.07); position: relative; overflow: hidden; transition: border-color .3s; }
+.reason:hover { border-color: rgba(240,237,232,.2); }
+.reason-num { font-family: 'Bebas Neue'; font-size: 5rem; color: rgba(240,237,232,.04); position: absolute; top: 8px; right: 14px; line-height: 1; }
+.reason-title { font-family: 'Bebas Neue'; font-size: 1.45rem; margin-bottom: 12px; }
+.reason-desc { font-size: .85rem; font-weight: 300; line-height: 1.78; color: rgba(240,237,232,.46); }
+.reason::after { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: #f0ede8; transform: scaleY(0); transform-origin: top; transition: transform .4s; }
+.reason:hover::after { transform: scaleY(1); }
+
+/* ══ SLIDE 8 ══ */
+#s8 { background: #111; }
+#s8::after { content: ''; position: absolute; top: 0; left: 7vw; right: 7vw; height: 1px; background: linear-gradient(90deg, transparent, rgba(240,237,232,.1), transparent); }
+#s8 .big-title { font-family: 'Bebas Neue'; font-size: clamp(3rem, 8vw, 8rem); line-height: .9; margin-bottom: 40px; color: #ffffff; }
+.contact-list { display: flex; flex-direction: column; gap: 3px; max-width: 520px; }
+.contact-item { display: flex; align-items: center; gap: 18px; padding: 18px 24px; border: 1px solid rgba(240,237,232,.07); text-decoration: none; color: #f0ede8; transition: border-color .25s, padding-left .28s; }
+.contact-item:hover { border-color: rgba(240,237,232,.25); padding-left: 34px; }
+.ci-label { font-size: .6rem; letter-spacing: .22em; text-transform: uppercase; color: rgba(240,237,232,.25); font-weight: 500; width: 82px; flex-shrink: 0; }
+.ci-value { font-size: .9rem; }
+.watermark { position: absolute; bottom: 32px; right: 7vw; font-family: 'Bebas Neue'; font-size: clamp(3rem,7vw,7rem); color: rgba(240,237,232,.025); letter-spacing: -.02em; pointer-events: none; user-select: none; }
+
+/* ══ REVEAL — fade-up on scroll, instant fallback ══ */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity .55s ease, transform .55s ease; }
+.reveal.in { opacity: 1; transform: translateY(0); }
+.rd1{transition-delay:.08s} .rd2{transition-delay:.16s} .rd3{transition-delay:.24s} .rd4{transition-delay:.32s}
+
+/* ══ TOUCH RIPPLE ══ */
+.ripple { position: absolute; border-radius: 50%; background: rgba(240,237,232,.1); pointer-events: none; transform: scale(0); animation: rpl .6s linear forwards; }
+@keyframes rpl { to { transform: scale(4); opacity: 0; } }
+
+/* ══ RESPONSIVE ══ */
+@media (max-height: 810px) and (min-width: 900px) {
+  .slide { padding: 56px 7vw; }
+  #s1 .big-title { font-size: clamp(4rem, 10vw, 9rem); }
+  .main-heading { font-size: clamp(1.8rem, 3.5vw, 3.4rem) !important; margin-bottom: 18px !important; }
+  .body-text { font-size: clamp(.78rem, 1vw, .9rem); line-height: 1.72; }
+  .body-text p + p { margin-top: 10px; }
+  .step { padding: 22px 18px; } .step-n { font-size: 3rem; margin-bottom: 10px; } .step-title { font-size: 1.05rem; } .step-desc { font-size: .76rem; }
+  .step-sub { margin-bottom: 26px; } .col { padding: 28px 26px; } .reason { padding: 30px 24px; }
+  #s6 .t-heading { font-size: clamp(1.9rem, 4vw, 4rem); margin-bottom: 6px; } #s6 .t-sub { margin-bottom: 26px; }
+  .pc { padding: 26px 22px; } .pc-price .amount { font-size: clamp(2.2rem, 4vw, 3.4rem); }
+  .t-modality { padding: 14px 22px; margin-bottom: 14px; }
+  #s8 .big-title { font-size: clamp(2.5rem, 6vw, 5.5rem); margin-bottom: 28px; }
+  .counters { gap: 24px; margin-top: 20px; } .counter-val { font-size: clamp(1.8rem, 3vw, 2.8rem); }
+}
+@media (max-width: 900px) { .two-cols, .reasons, .pricing-grid { grid-template-columns: 1fr; } .steps { grid-template-columns: 1fr 1fr; } #nav-dots { right: 12px; } }
+@media (max-width: 600px) {
+  html { scroll-snap-type: none; } body { cursor: auto; } #cur { display: none !important; } #nav-dots { display: none; }
+  .slide { padding: 68px 5vw 72px; min-height: 100svh; }
+  #s1 { justify-content: flex-end; padding-bottom: 68px; } #s1 .big-title { font-size: clamp(3.5rem, 17vw, 6rem); }
+  .steps { grid-template-columns: 1fr; } .pricing-grid { grid-template-columns: 1fr; }
+  #s6 { justify-content: flex-start; padding-top: 72px; }
+  .contact-item { flex-direction: column; align-items: flex-start; gap: 4px; } .ci-label { width: auto; }
+  .counters { gap: 20px; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="ptc"></canvas>
+<div id="cur"></div>
+
+<nav id="nav-dots">
+  <a class="nd on" href="#s1" title="Inicio"></a>
+  <a class="nd" href="#s2" title="El Problema"></a>
+  <a class="nd" href="#s3" title="Nuestra Solución"></a>
+  <a class="nd" href="#s4" title="Convencional"></a>
+  <a class="nd" href="#s5" title="No Convencional"></a>
+  <a class="nd" href="#s6" title="Tarifas"></a>
+  <a class="nd" href="#s7" title="Por qué elegirnos"></a>
+  <a class="nd" href="#s8" title="Contacto"></a>
+</nav>
+
+<!-- 01 PORTADA -->
+<section class="slide" id="s1">
+  <div class="orb" style="width:500px;height:500px;background:#fff;right:-100px;top:-100px;animation-duration:18s"></div>
+  <div class="orb" style="width:300px;height:300px;background:#fff;left:10%;bottom:10%;animation-duration:24s;animation-delay:-8s"></div>
+  <div id="glow"></div>
+  <div class="gradient-line"></div>
+  <div class="logo-row">
+    <svg viewBox="0 0 26 26" fill="none">
+      <circle cx="5" cy="13" r="3" fill="#f0ede8"/>
+      <circle cx="18" cy="5" r="3" fill="#f0ede8"/>
+      <circle cx="18" cy="21" r="3" fill="#f0ede8"/>
+      <line x1="5" y1="13" x2="18" y2="5" stroke="#f0ede8" stroke-width="1.2"/>
+      <line x1="5" y1="13" x2="18" y2="21" stroke="#f0ede8" stroke-width="1.2"/>
+    </svg>
+    Quino Networks
+  </div>
+  <div class="big-title reveal">QUINO<br>NETWORKS</div>
+  <div class="tagline reveal rd1 cursor-blink">Marketing que va más allá.</div>
+  <div class="counters">
+    <div class="counter-item reveal rd2">
+      <div class="counter-val" id="c1" data-target="100" data-suffix="%">0%</div>
+      <div class="counter-label">% Enfoque en resultados</div>
+    </div>
+    <div class="counter-item reveal rd3">
+      <div class="counter-val" id="c2" data-target="8">0</div>
+      <div class="counter-label">Estrategias únicas en Venezuela</div>
+    </div>
+    <div class="counter-item reveal rd4">
+      <div class="counter-val" id="c3" data-countdown="99">99</div>
+      <div class="counter-label">Competidores directos</div>
+    </div>
+  </div>
+  <div class="slide-indicator">01 — Inicio</div>
+</section>
+
+<!-- 02 EL PROBLEMA -->
+<section class="slide" id="s2">
+  <div class="orb" style="width:400px;height:400px;background:#fff;right:-80px;bottom:0;animation-duration:20s"></div>
+  <h2 class="main-heading reveal">Desafíos de la<br>Visibilidad Online</h2>
+  <div class="body-text">
+    <p class="reveal rd1">La mayoría de las marcas, empresas, y negocios son prácticamente invisibles, lo que dificulta su competitividad a nivel de redes. <strong>El marketing convencional ya no basta.</strong> Se requiere un enfoque innovador para destacar y conectar con el público.</p>
+    <p class="reveal rd2">Los tiempos que corren han provocado que la forma en que se hace marketing haya cambiado, por lo tanto, ahora se deben abarcar enfoques que normalmente se pasan de largo, pero que no dejan de ser importantes a la hora de hacer reconocida una marca.</p>
+    <p class="reveal rd3">Ahora métricas como el <strong>volumen de likes</strong>, la <strong>frecuencia de comentarios</strong> y cualquier interacción que potencie el alcance de tu marca son activos tangibles que solo nosotros podemos ofrecer bajo demanda. <strong>La espera por tu audiencia ha terminado.</strong></p>
+  </div>
+  <div class="slide-indicator">02 — El Problema</div>
+</section>
+
+<!-- 03 SOLUCIÓN -->
+<section class="slide" id="s3">
+  <div class="orb" style="width:350px;height:350px;background:#fff;left:-60px;top:20%;animation-duration:22s;animation-delay:-5s"></div>
+  <h2 class="main-heading reveal">Doble capa de<br>estrategias efectivas</h2>
+  <div class="two-cols">
+    <div class="col reveal rd1">
+      <div class="col-tag">Estrategia 01</div>
+      <div class="col-title">Convencional</div>
+      <div class="col-desc">Implementamos estrategias de marketing convencionales como anuncios en Meta Ads y TikTok Ads, maximizando la visibilidad generando tráfico inmediato y segmentalizado.</div>
+    </div>
+    <div class="col reveal rd2">
+      <div class="col-tag">Estrategia 02</div>
+      <div class="col-title">No Convencional</div>
+      <div class="col-desc">Utilizamos métodos no convencionales que crean redes de interacción orgánicas, fomentando interacciones reales y mejorando el alcance algorítmico.</div>
+    </div>
+  </div>
+  <div class="slide-indicator">03 — Nuestra Solución</div>
+</section>
+
+<!-- 04 CONVENCIONAL -->
+<section class="slide" id="s4">
+  <h2 class="main-heading reveal">Cómo Funciona Nuestro<br>Enfoque Convencional</h2>
+  <div class="step-sub reveal rd1">Proceso</div>
+  <div class="steps">
+    <div class="step reveal rd1"><div class="step-n">01</div><div class="step-title">Creación</div><div class="step-desc">Desarrollo de anuncios con segmentación adecuada y efectiva en paneles publicitarios (Meta Ads, TikTok Ads).</div></div>
+    <div class="step reveal rd2"><div class="step-n">02</div><div class="step-title">Geolocalización Inteligente</div><div class="step-desc">Precisión en la ubicación de los anuncios para maximizar el impacto publicitario.</div></div>
+    <div class="step reveal rd3"><div class="step-n">03</div><div class="step-title">Uso de Funnels</div><div class="step-desc">Implementación de embudos de tráfico para optimizar la conversión y alcance.</div></div>
+    <div class="step reveal rd4"><div class="step-n">04</div><div class="step-title">Análisis Estadístico</div><div class="step-desc">Evaluación detallada de las estadísticas y las métricas para mejorar resultados futuros.</div></div>
+  </div>
+  <div class="slide-indicator">04 — Enfoque Convencional</div>
+</section>
+
+<!-- 05 NO CONVENCIONAL -->
+<section class="slide" id="s5">
+  <div class="orb" style="width:400px;height:400px;background:#fff;right:-60px;top:15%;animation-duration:19s;animation-delay:-12s"></div>
+  <h2 class="main-heading reveal">Cómo Funciona Nuestro<br>Marketing No Convencional</h2>
+  <div class="step-sub reveal rd1">Proceso</div>
+  <div class="steps">
+    <div class="step reveal rd1"><div class="step-n">01</div><div class="step-title">Creación</div><div class="step-desc">Desarrollo de cuentas específicas para el cliente y su audiencia.</div></div>
+    <div class="step reveal rd2"><div class="step-n">02</div><div class="step-title">Despliegue</div><div class="step-desc">Implementación independiente, cada cuenta tendrá configuraciones personalizadas para su correcto funcionamiento.</div></div>
+    <div class="step reveal rd3"><div class="step-n">03</div><div class="step-title">Acondicionamiento</div><div class="step-desc">Proceso orgánico de 4 a 7 días para establecer interacciones reales.</div></div>
+    <div class="step reveal rd4"><div class="step-n">04</div><div class="step-title">Gestión</div><div class="step-desc">Manejo continuo de cuentas, asegurando efectividad y rendimiento óptimo.</div></div>
+  </div>
+  <div class="slide-indicator">05 — Marketing No Convencional</div>
+</section>
+
+<!-- 06 TARIFAS -->
+<section class="slide" id="s6">
+  <div class="orb" style="width:500px;height:500px;background:#fff;left:-100px;bottom:-100px;animation-duration:25s"></div>
+  <p class="t-eyebrow reveal">06 — Inversión Estratégica</p>
+  <h2 class="t-heading reveal rd1">Inversión<br>Estratégica</h2>
+  <p class="t-sub reveal rd2">Sin compromisos imposibles. Elige el plan que necesitas — y págalo como te convenga.</p>
+  <div class="pricing-grid">
+    <div class="pc reveal rd1">
+      <div class="pc-label">Convencional</div>
+      <div class="pc-name">Convencional</div>
+      <div class="pc-price"><span class="amount">$150</span><span class="period">/mes</span></div>
+      <hr>
+      <ul><li>Gestión de Meta Ads</li><li>TikTok Ads Management</li><li>Segmentación Avanzada</li></ul>
+    </div>
+    <div class="pc reveal rd2">
+      <div class="pc-label">No Convencional</div>
+      <div class="pc-name">No Convencional</div>
+      <div class="pc-price"><span class="amount">$150</span><span class="period">/mes</span></div>
+      <hr>
+      <ul><li>Red de Cuentas Orgánicas</li><li>Impulso Algorítmico</li><li>Gestión de Interacciones</li></ul>
+    </div>
+    <div class="pc highlight reveal rd3">
+      <div class="pc-label">Full Service</div>
+      <div class="pc-name">Full Service</div>
+      <div class="pc-price"><span class="amount">$300</span><span class="period">/mes</span></div>
+      <hr>
+      <ul><li>Estrategia Integral (Capa 1 + 2)</li><li>Máximo Alcance Orgánico</li><li>Optimización de ROI Diaria</li></ul>
+    </div>
+  </div>
+  <div class="t-modality reveal rd4">
+    <span class="mod-icon">⟳</span>
+    <div class="mod-text"><strong>Flexibilidad de pago total.</strong> Puedes cubrir tu plan en un <strong>pago único mensual</strong> o dividirlo en <strong>dos cuotas durante el mes</strong>. La modalidad es completamente negociable — lo que importa es que tu marca crezca sin que el presupuesto sea un obstáculo.</div>
+  </div>
+  <p class="t-disclaimer reveal rd4">IMPORTANTE: LOS GASTOS DE PUBLICIDAD (AD SPEND) Y COSTOS DE CREACIÓN DE CUENTAS SON INDEPENDIENTES Y GESTIONADOS POR EL CLIENTE.</p>
+  <a href="#s8" class="t-cta reveal rd4">Hablar con un asesor →</a>
+  <div class="slide-indicator">06 — Tarifas</div>
+</section>
+
+<!-- 07 POR QUÉ -->
+<section class="slide" id="s7">
+  <div class="orb" style="width:450px;height:450px;background:#fff;right:-80px;top:0;animation-duration:21s;animation-delay:-7s"></div>
+  <h2 class="main-heading reveal">Por qué elegir<br>Quino Networks</h2>
+  <div class="reasons">
+    <div class="reason reveal rd1"><div class="reason-num">01</div><div class="reason-title">Plan de acción único y efectivo</div><div class="reason-desc">No hay una empresa de Marketing en el país que haga uso de nuestras estrategias de marketing no convencional.</div></div>
+    <div class="reason reveal rd2"><div class="reason-num">02</div><div class="reason-title">Enfoque en resultados tangibles</div><div class="reason-desc">Generamos interacciones reales desde cero que potencian el alcance algorítmico. Más interacciones = Mayor visibilidad.</div></div>
+    <div class="reason reveal rd3"><div class="reason-num">03</div><div class="reason-title">Sin competencia en el mercado</div><div class="reason-desc">Ofrecemos una propuesta nunca vista en toda Venezuela, siendo pioneros en este aspecto.</div></div>
+  </div>
+  <div class="slide-indicator">07 — Por qué elegirnos</div>
+</section>
+
+<!-- 08 CONTACTO -->
+<section class="slide" id="s8">
+  <div class="orb" style="width:400px;height:400px;background:#fff;left:-80px;top:20%;animation-duration:23s;animation-delay:-4s"></div>
+  <div class="big-title reveal">CONTACTO</div>
+  <div class="contact-list">
+    <a class="contact-item reveal rd1" href="mailto:quinonetworks@gmail.com"><span class="ci-label">Correo</span><span class="ci-value">quinonetworks@gmail.com</span></a>
+    <a class="contact-item reveal rd2" href="https://wa.me/584140781297" target="_blank"><span class="ci-label">Whatsapp</span><span class="ci-value">0414-0781297</span></a>
+    <a class="contact-item reveal rd3" href="https://t.me/QuinoNetworks" target="_blank"><span class="ci-label">Telegram</span><span class="ci-value">@QuinoNetworks</span></a>
+  </div>
+  <div class="watermark">QUINO</div>
+  <div class="slide-indicator">08 — Contacto</div>
+</section>
+
+<script>
+const isTouch = () => window.matchMedia('(pointer: coarse)').matches;
+
+/* ── CURSOR ── */
+const cur = document.getElementById('cur');
+if (!isTouch()) {
+  document.addEventListener('mousemove', e => { cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px'; });
+  document.querySelectorAll('a,.step,.col,.reason,.pc').forEach(el => {
+    el.addEventListener('mouseenter', () => cur.classList.add('big'));
+    el.addEventListener('mouseleave', () => cur.classList.remove('big'));
+  });
+}
+
+/* ── HERO GLOW ── */
+const glow = document.getElementById('glow');
+const s1   = document.getElementById('s1');
+function moveGlow(x,y){ const r=s1.getBoundingClientRect(); glow.style.left=(x-r.left)+'px'; glow.style.top=(y-r.top)+'px'; }
+s1.addEventListener('mousemove', e => moveGlow(e.clientX,e.clientY));
+s1.addEventListener('touchmove', e => moveGlow(e.touches[0].clientX,e.touches[0].clientY),{passive:true});
+
+/* ── PARTICLES ── */
+(function(){
+  const canvas = document.getElementById('ptc');
+  const ctx = canvas.getContext('2d');
+  let W,H,pts=[];
+  function resize(){ W=canvas.width=window.innerWidth; H=canvas.height=window.innerHeight; }
+  window.addEventListener('resize',resize); resize();
+  const N = isTouch()?45:85;
+  for(let i=0;i<N;i++) pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.22,vy:(Math.random()-.5)*.22,r:Math.random()*1.1+.3,a:Math.random()*.28+.05});
+  let mx=-9999,my=-9999;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+  const DIST=110,ATTRACT=140;
+  function frame(){
+    ctx.clearRect(0,0,W,H);
+    for(let i=0;i<pts.length;i++){
+      const p=pts[i];
+      const adx=mx-p.x,ady=my-p.y,ad=Math.sqrt(adx*adx+ady*ady);
+      if(ad<ATTRACT&&ad>0){p.vx+=(adx/ad)*.008;p.vy+=(ady/ad)*.008;}
+      const spd=Math.sqrt(p.vx*p.vx+p.vy*p.vy);
+      if(spd>.55){p.vx*=.55/spd;p.vy*=.55/spd;}
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(240,237,232,${p.a})`;ctx.fill();
+      for(let j=i+1;j<pts.length;j++){
+        const q=pts[j],dx=p.x-q.x,dy=p.y-q.y,d=Math.sqrt(dx*dx+dy*dy);
+        if(d<DIST){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.strokeStyle=`rgba(240,237,232,${.055*(1-d/DIST)})`;ctx.lineWidth=.45;ctx.stroke();}
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+/* ── REVEAL — works in iframe + real browser ── */
+const allReveal = document.querySelectorAll('.reveal');
+
+// Try IntersectionObserver first (real browser, scrollable page)
+if ('IntersectionObserver' in window) {
+  const rObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0 });
+  allReveal.forEach(el => rObs.observe(el));
+}
+
+// Fallback: if rendered inside iframe preview (no real scroll context),
+// reveal everything after a short delay so nothing stays invisible
+setTimeout(() => { allReveal.forEach(el => el.classList.add('in')); }, 300);
+
+/* ── NAV DOTS ── */
+const slides = document.querySelectorAll('.slide');
+const dots   = document.querySelectorAll('.nd');
+const sObs   = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const i=Array.from(slides).indexOf(e.target);
+      dots.forEach((d,j)=>d.classList.toggle('on',i===j));
+    }
+  });
+},{threshold:.5});
+slides.forEach(s=>sObs.observe(s));
+dots.forEach((d,i)=>{ d.addEventListener('click',ev=>{ev.preventDefault();slides[i].scrollIntoView({behavior:'smooth'});}); });
+
+/* ── SYNCED COUNTERS ── */
+const DURATION = 1800;
+function easeOut(t){ return 1-Math.pow(1-t,3); }
+
+function runCounters(){
+  const c1 = document.getElementById('c1');
+  const c2 = document.getElementById('c2');
+  const c3 = document.getElementById('c3');
+  let startTs = null;
+
+  function tick(ts){
+    if(!startTs) startTs = ts;
+    const progress = Math.min((ts-startTs)/DURATION, 1);
+    const e = easeOut(progress);
+
+    c1.textContent = Math.round(e*100)+'%';
+    c2.textContent = Math.round(e*8);
+    c3.textContent = Math.round(99 - e*99);
+
+    if(progress < 1) requestAnimationFrame(tick);
+    else { c1.textContent='100%'; c2.textContent='8'; c3.textContent='0'; }
+  }
+  requestAnimationFrame(tick);
+}
+
+// Fire counters when hero enters view, or after 800ms as fallback
+let countersRan = false;
+const cObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting && !countersRan){ countersRan=true; runCounters(); cObs.disconnect(); }
+  });
+},{threshold:.3});
+cObs.observe(document.getElementById('s1'));
+setTimeout(()=>{ if(!countersRan){ countersRan=true; runCounters(); } }, 800);
+
+/* ── TOUCH RIPPLE ── */
+if(isTouch()){
+  document.querySelectorAll('.step,.col,.reason,.pc,.contact-item').forEach(el=>{
+    el.addEventListener('touchstart',e=>{
+      const t=e.touches[0],r=el.getBoundingClientRect(),sz=Math.max(r.width,r.height);
+      const rp=document.createElement('span');
+      rp.className='ripple';
+      rp.style.cssText=`width:${sz}px;height:${sz}px;left:${t.clientX-r.left-sz/2}px;top:${t.clientY-r.top-sz/2}px`;
+      el.appendChild(rp);setTimeout(()=>rp.remove(),700);
+    },{passive:true});
+  });
+}
+</script>
+</body>
+</html>
